@@ -1,11 +1,5 @@
 import React from 'react';
-import './Game.css';
-
-class Square extends React.Component {
-  render() {
-    return <button className="square">{/* TODO */}</button>;
-  }
-}
+import Square from './Square';
 
 class Board extends React.Component {
   renderSquare(i) {
@@ -38,20 +32,4 @@ class Board extends React.Component {
   }
 }
 
-class Game extends React.Component {
-  render() {
-    return (
-      <div className="game">
-        <div className="game-board">
-          <Board />
-        </div>
-        <div className="game-info">
-          <div>{/* status */}</div>
-          <ol>{/* TODO */}</ol>
-        </div>
-      </div>
-    );
-  }
-}
-
-export default Game;
+export default Board;
