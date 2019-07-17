@@ -81,7 +81,7 @@ class Game extends React.Component {
     });
 
     let status = winner
-      ? `Winner: ${winner}`
+      ? `Winner: ${winner.winner}`
       : `Next player: ${this.state.xIsNext ? 'X' : 'O'}`;
 
     return (
@@ -91,6 +91,7 @@ class Game extends React.Component {
             squares={current.squares}
             onClick={i => this.handleClick(i)}
             status={status}
+            winningSquares={winner && winner.winningSquares}
           />
         </div>
         <div className="game-info">

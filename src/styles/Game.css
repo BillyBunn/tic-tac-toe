@@ -62,6 +62,7 @@ ul {
   margin-left: 15px;
 }
 
-.current-move, .current-move button {
+.current-move,
+.current-move button {
   font-weight: bold;
 }
