@@ -80,7 +80,11 @@ class Game extends React.Component {
       );
     });
 
-    let status = winner
+    let draw = !winner && this.state.stepNumber >= 9;
+
+    let status = draw
+      ? `Tie game`
+      : winner
       ? `Winner: ${winner.winner}`
       : `Next player: ${this.state.xIsNext ? 'X' : 'O'}`;
 
