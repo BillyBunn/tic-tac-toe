@@ -9,7 +9,8 @@ class Game extends React.Component {
     this.state = {
       history: [
         {
-          squares: Array(9).fill(null)
+          squares: Array(9).fill(null),
+          move: { col: null, row: null }
         }
       ],
       stepNumber: 0,
@@ -27,8 +28,22 @@ class Game extends React.Component {
 
     squares[i] = this.state.xIsNext ? 'X' : 'O'; // fill square
 
+    const moveMap = {
+      0: [1, 1],
+      1: [2, 1],
+      2: [3, 1],
+      3: [1, 2],
+      4: [2, 2],
+      5: [3, 2],
+      6: [1, 3],
+      7: [2, 3],
+      8: [3, 3]
+    };
+    let [col, row] = moveMap[i];
+    let move = { col, row };
+
     this.setState({
-      history: [...history, { squares }],
+      history: [...history, { squares, move }],
       stepNumber: history.length,
       xIsNext: !this.state.xIsNext
     });
@@ -48,9 +63,12 @@ class Game extends React.Component {
 
     const moves = history.map((step, move) => {
       const desc = move ? `Go to move # ${move}` : `Go to game start`;
+      const { col, row } = step.move;
       return (
         <li key={move}>
           <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          <p>{col && `col: ${col}`}</p>
+          <p>{row && `row: ${row}`}</p>
         </li>
       );
     });

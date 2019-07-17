@@ -53,3 +53,11 @@ ul {
 .game-info {
   margin-left: 20px;
 }
+
+.game-info ol {
+}
+
+.game-info ol li p {
+  display: inline;
+  margin-left: 15px;
+}
