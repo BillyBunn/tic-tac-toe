@@ -61,3 +61,7 @@ ul {
   display: inline;
   margin-left: 15px;
 }
+
+.current-move, .current-move button {
+  font-weight: bold;
+}
