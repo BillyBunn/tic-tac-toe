@@ -65,7 +65,7 @@ class Game extends React.Component {
       const desc = move ? `Go to move # ${move}` : `Go to game start`;
       const { col, row } = step.move;
       return (
-        <li key={move} className={current === step && 'current-move'}>
+        <li key={move} className={current === step ? 'current-move' : null}>
           <button onClick={() => this.jumpTo(move)}>{desc}</button>
           <p>{col && `col: ${col}`}</p>
           <p>{row && `row: ${row}`}</p>
