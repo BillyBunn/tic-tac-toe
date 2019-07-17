@@ -7,6 +7,7 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      ascending: true,
       history: [
         {
           squares: Array(9).fill(null),
@@ -56,6 +57,10 @@ class Game extends React.Component {
     });
   }
 
+  toggleAscending() {
+    this.setState({ ascending: !this.state.ascending });
+  }
+
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
@@ -67,8 +72,10 @@ class Game extends React.Component {
       return (
         <li key={move} className={current === step ? 'current-move' : null}>
           <button onClick={() => this.jumpTo(move)}>{desc}</button>
-          <p>{col && `col: ${col}`}</p>
-          <p>{row && `row: ${row}`}</p>
+          <p>
+            {col && `col: ${col}`}
+            {row && `, row: ${row}`}
+          </p>
         </li>
       );
     });
@@ -88,7 +95,10 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{moves}</ol>
+          <button onClick={() => this.toggleAscending()}>
+            {this.state.ascending ? 'ascending' : 'descending'}
+          </button>
+          <ol>{this.state.ascending ? moves : moves.reverse()}</ol>
         </div>
       </div>
     );
