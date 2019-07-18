@@ -59,13 +59,12 @@ class Game extends React.Component {
       const desc = move ? `Go to move # ${move}` : `Go to game start`;
       const [col, row] = step.move;
       return (
-        <li key={move} className={current === step ? 'current-move' : null}>
+        <div key={move} className={current === step ? 'current-move' : null}>
+          <span>{move}</span>
           <button onClick={() => this.jumpTo(move)}>{desc}</button>
-          <p>
-            {col && `col: ${col}`}
-            {row && `, row: ${row}`}
-          </p>
-        </li>
+          <span>{col && col}</span>
+          <span>{row && row}</span>
+        </div>
       );
     });
 
@@ -92,7 +91,15 @@ class Game extends React.Component {
           <button onClick={() => this.toggleAscending()}>
             {this.state.ascending ? 'ascending' : 'descending'}
           </button>
-          <ol>{this.state.ascending ? moves : moves.reverse()}</ol>
+          <div className="moves">
+            <div>
+              <span>#</span>
+              <span>Time Travel</span>
+              <span>Column</span>
+              <span>Row</span>
+            </div>
+            {this.state.ascending ? moves : moves.reverse()}
+          </div>
         </div>
       </div>
     );
