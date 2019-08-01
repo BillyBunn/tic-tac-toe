@@ -1,58 +1,54 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import '../styles/Game.css';
 import Board from './Board';
 import calculateWinner from '../lib/calculateWinner';
+// import * as actions from '../store/actions';
 
 class Game extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      ascending: true,
-      history: [
-        {
-          squares: Array(9).fill(null),
-          move: Array(2).fill(null)
-        }
-      ],
-      stepNumber: 0,
-      xIsNext: true
-    };
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
 
   handleClick(i) {
-    let history = this.state.history.slice(0, this.state.stepNumber + 1);
+    let history = this.props.history.slice(0, this.props.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = [...current.squares];
 
     // If there's a winner, do nothing
     if (calculateWinner(squares) || squares[i]) return;
 
-    squares[i] = this.state.xIsNext ? 'X' : 'O'; // fill square
+    squares[i] = this.props.xIsNext ? 'X' : 'O'; // fill square
 
     // column and row of the move
     let move = [Math.floor((i % 3) + 1), Math.floor(i / 3 + 1)];
 
-    this.setState({
-      history: [...history, { squares, move }],
-      stepNumber: history.length,
-      xIsNext: !this.state.xIsNext
+    this.props.dispatch({
+      type: 'SQUARE_CLICK',
+      payload: {
+        history: [...history, { squares, move }],
+        stepNumber: history.length,
+        xIsNext: !this.props.xIsNext
+      }
     });
   }
 
   jumpTo(step) {
-    this.setState({
-      stepNumber: step,
-      xIsNext: step % 2 === 0 // X is next on all even moves
+    this.props.dispatch({
+      type: 'TIME_TRAVEL',
+      payload: step
     });
   }
 
   toggleAscending() {
-    this.setState({ ascending: !this.state.ascending });
+    this.props.dispatch({
+      type: 'TOGGLE_ASCENDING'
+    });
   }
 
   render() {
-    const history = this.state.history;
-    const current = history[this.state.stepNumber];
+    const history = this.props.history;
+    const current = history[this.props.stepNumber];
     const winner = calculateWinner(current.squares);
 
     const moves = history.map((step, move) => {
@@ -68,18 +64,22 @@ class Game extends React.Component {
       );
     });
 
-    let draw = !winner && this.state.stepNumber >= 9;
+    let draw = !winner && this.props.stepNumber >= 9;
 
     let status = draw
       ? `Tie game`
       : winner
       ? `Winner: ${winner.winner}`
-      : `Next player: ${this.state.xIsNext ? 'X' : 'O'}`;
+      : `Next player: ${this.props.xIsNext ? 'X' : 'O'}`;
 
     return (
       <>
-        <h1>React Tic-Tac-Toe: Basic</h1>
-        <h3><a href="https://github.com/BillyBunn/tic-tac-toe">See the source code & other design patterns</a></h3>
+        <h1>React Tic-Tac-Toe: Redux</h1>
+        <h3>
+          <a href="https://github.com/BillyBunn/tic-tac-toe">
+            See the source code & other design patterns
+          </a>
+        </h3>
         <div className="game">
           <div className="game-board">
             <Board
@@ -92,7 +92,7 @@ class Game extends React.Component {
           <div className="game-info">
             <div>{status}</div>
             <button onClick={() => this.toggleAscending()}>
-              {this.state.ascending ? 'ascending' : 'descending'}
+              {this.props.ascending ? 'ascending' : 'descending'}
             </button>
             <div className="moves">
               <div>
@@ -101,7 +101,7 @@ class Game extends React.Component {
                 <span>Column</span>
                 <span>Row</span>
               </div>
-              {this.state.ascending ? moves : moves.reverse()}
+              {this.props.ascending ? moves : moves.reverse()}
             </div>
           </div>
         </div>
@@ -110,4 +110,12 @@ class Game extends React.Component {
   }
 }
 
-export default Game;
+const mapStateToProps = (state, ownProps) => {
+  let { ascending, history, stepNumber, xIsNext } = state;
+  return { ascending, history, stepNumber, xIsNext };
+};
+
+export default connect(
+  mapStateToProps,
+  null
+)(Game);
