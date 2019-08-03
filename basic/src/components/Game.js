@@ -77,31 +77,39 @@ class Game extends React.Component {
       : `Next player: ${this.state.xIsNext ? 'X' : 'O'}`;
 
     return (
-      <div className="game">
-        <div className="game-board">
-          <Board
-            squares={current.squares}
-            onClick={i => this.handleClick(i)}
-            status={status}
-            winningSquares={winner && winner.winningSquares}
-          />
-        </div>
-        <div className="game-info">
-          <div>{status}</div>
-          <button onClick={() => this.toggleAscending()}>
-            {this.state.ascending ? 'ascending' : 'descending'}
-          </button>
-          <div className="moves">
-            <div>
-              <span>#</span>
-              <span>Time Travel</span>
-              <span>Column</span>
-              <span>Row</span>
+      <>
+        <h1>React Tic-Tac-Toe: Redux</h1>
+        <h3>
+          <a href="https://github.com/BillyBunn/tic-tac-toe">
+            See the source code & other design patterns
+          </a>
+        </h3>
+        <div className="game">
+          <div className="game-board">
+            <Board
+              squares={current.squares}
+              onClick={i => this.handleClick(i)}
+              status={status}
+              winningSquares={winner && winner.winningSquares}
+            />
+          </div>
+          <div className="game-info">
+            <div>{status}</div>
+            <button onClick={() => this.toggleAscending()}>
+              {this.state.ascending ? 'ascending' : 'descending'}
+            </button>
+            <div className="moves">
+              <div>
+                <span>#</span>
+                <span>Time Travel</span>
+                <span>Column</span>
+                <span>Row</span>
+              </div>
+              {this.state.ascending ? moves : moves.reverse()}
             </div>
-            {this.state.ascending ? moves : moves.reverse()}
           </div>
         </div>
-      </div>
+      </>
     );
   }
 }
