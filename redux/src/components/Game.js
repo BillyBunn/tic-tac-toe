@@ -3,35 +3,9 @@ import { connect } from 'react-redux';
 import '../styles/Game.css';
 import Board from './Board';
 import calculateWinner from '../lib/calculateWinner';
-// import * as actions from '../store/actions';
+import * as actions from '../store/actions';
 
 class Game extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  // }
-
-  handleClick(i) {
-    let history = this.props.history.slice(0, this.props.stepNumber + 1);
-    const current = history[history.length - 1];
-    const squares = [...current.squares];
-
-    // If there's a winner, do nothing
-    if (calculateWinner(squares) || squares[i]) return;
-
-    squares[i] = this.props.xIsNext ? 'X' : 'O'; // fill square
-
-    // column and row of the move
-    let move = [Math.floor((i % 3) + 1), Math.floor(i / 3 + 1)];
-
-    this.props.dispatch({
-      type: 'SQUARE_CLICK',
-      payload: {
-        history: [...history, { squares, move }],
-        stepNumber: history.length,
-        xIsNext: !this.props.xIsNext
-      }
-    });
-  }
 
   jumpTo(step) {
     this.props.dispatch({
@@ -84,7 +58,6 @@ class Game extends React.Component {
           <div className="game-board">
             <Board
               squares={current.squares}
-              onClick={i => this.handleClick(i)}
               status={status}
               winningSquares={winner && winner.winningSquares}
             />

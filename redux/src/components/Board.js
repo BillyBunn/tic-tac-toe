@@ -8,8 +8,8 @@ class Board extends React.Component {
     return (
       <Square
         key={i}
+        squareId={i}
         value={this.props.squares[i]}
-        onClick={() => this.props.onClick(i)}
         winningSquare={winner}
       />
     );
