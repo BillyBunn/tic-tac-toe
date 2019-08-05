@@ -4,3 +4,9 @@ export const toggleAscending = () => {
   };
 };
 
+export const jumpTo = payload => {
+  return {
+    type: 'TIME_TRAVEL',
+    payload
+  };
+};

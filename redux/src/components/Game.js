@@ -6,20 +6,6 @@ import calculateWinner from '../lib/calculateWinner';
 import * as actions from '../store/actions';
 
 class Game extends React.Component {
-
-  jumpTo(step) {
-    this.props.dispatch({
-      type: 'TIME_TRAVEL',
-      payload: step
-    });
-  }
-
-  toggleAscending() {
-    this.props.dispatch({
-      type: 'TOGGLE_ASCENDING'
-    });
-  }
-
   render() {
     const history = this.props.history;
     const current = history[this.props.stepNumber];
@@ -31,7 +17,7 @@ class Game extends React.Component {
       return (
         <div key={move} className={current === step ? 'current-move' : null}>
           <span>{move}</span>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          <button onClick={() => this.props.jumpTo(move)}>{desc}</button>
           <span>{col && col}</span>
           <span>{row && row}</span>
         </div>
@@ -64,7 +50,7 @@ class Game extends React.Component {
           </div>
           <div className="game-info">
             <div>{status}</div>
-            <button onClick={() => this.toggleAscending()}>
+            <button onClick={() => this.props.toggleAscending()}>
               {this.props.ascending ? 'ascending' : 'descending'}
             </button>
             <div className="moves">
@@ -88,7 +74,14 @@ const mapStateToProps = (state, ownProps) => {
   return { ascending, history, stepNumber, xIsNext };
 };
 
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    jumpTo: payload => dispatch(actions.jumpTo(payload)),
+    toggleAscending: () => dispatch(actions.toggleAscending())
+  };
+};
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(Game);

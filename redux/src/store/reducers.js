@@ -18,7 +18,6 @@ export default (state = initialState, action) => {
 
     case 'TIME_TRAVEL':
       let step = action.payload;
-      console.log({ step });
       return {
         ...state,
         stepNumber: step,
