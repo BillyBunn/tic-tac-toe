@@ -1,7 +1,8 @@
 import React from 'react';
-import '../styles/Game.css';
+import { Context } from '../Context';
 import Board from './Board';
 import calculateWinner from '../lib/calculateWinner';
+import '../styles/Game.css';
 
 class Game extends React.Component {
   constructor(props) {
@@ -51,8 +52,8 @@ class Game extends React.Component {
   }
 
   render() {
-    const history = this.state.history;
-    const current = history[this.state.stepNumber];
+    const history = this.context.history;
+    const current = history[this.context.stepNumber];
     const winner = calculateWinner(current.squares);
 
     const moves = history.map((step, move) => {
@@ -61,20 +62,20 @@ class Game extends React.Component {
       return (
         <div key={move} className={current === step ? 'current-move' : null}>
           <span>{move}</span>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          <button onClick={() => this.context.jumpTo(move)}>{desc}</button>
           <span>{col && col}</span>
           <span>{row && row}</span>
         </div>
       );
     });
 
-    let draw = !winner && this.state.stepNumber >= 9;
+    let draw = !winner && this.context.stepNumber >= 9;
 
     let status = draw
       ? `Tie game`
       : winner
       ? `Winner: ${winner.winner}`
-      : `Next player: ${this.state.xIsNext ? 'X' : 'O'}`;
+      : `Next player: ${this.context.xIsNext ? 'X' : 'O'}`;
 
     return (
       <>
@@ -88,15 +89,15 @@ class Game extends React.Component {
           <div className="game-board">
             <Board
               squares={current.squares}
-              onClick={i => this.handleClick(i)}
+              onClick={i => this.context.handleClick(i)}
               status={status}
               winningSquares={winner && winner.winningSquares}
             />
           </div>
           <div className="game-info">
             <div>{status}</div>
-            <button onClick={() => this.toggleAscending()}>
-              {this.state.ascending ? 'ascending' : 'descending'}
+            <button onClick={() => this.context.toggleAscending()}>
+              {this.context.ascending ? 'ascending' : 'descending'}
             </button>
             <div className="moves">
               <div>
@@ -105,7 +106,7 @@ class Game extends React.Component {
                 <span>Column</span>
                 <span>Row</span>
               </div>
-              {this.state.ascending ? moves : moves.reverse()}
+              {this.context.ascending ? moves : moves.reverse()}
             </div>
           </div>
         </div>
@@ -113,5 +114,7 @@ class Game extends React.Component {
     );
   }
 }
+
+Game.contextType = Context;
 
 export default Game;
