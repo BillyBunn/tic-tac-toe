@@ -78,7 +78,7 @@ class Game extends React.Component {
 
     return (
       <>
-        <h1>React Tic-Tac-Toe: Redux</h1>
+        <h1>React Tic-Tac-Toe: Context API</h1>
         <h3>
           <a href="https://github.com/BillyBunn/tic-tac-toe">
             See the source code & other design patterns
