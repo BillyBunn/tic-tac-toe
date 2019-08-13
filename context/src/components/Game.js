@@ -4,21 +4,6 @@ import Board from './Board';
 import '../styles/Game.css';
 
 class Game extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      ascending: true,
-      history: [
-        {
-          squares: Array(9).fill(null),
-          move: Array(2).fill(null)
-        }
-      ],
-      stepNumber: 0,
-      xIsNext: true
-    };
-  }
-
   render() {
     const history = this.context.history;
     const current = history[this.context.stepNumber];
