@@ -1,7 +1,6 @@
 import React from 'react';
 import { Context } from '../Context';
 import Board from './Board';
-import calculateWinner from '../lib/calculateWinner';
 import '../styles/Game.css';
 
 class Game extends React.Component {
@@ -20,41 +19,10 @@ class Game extends React.Component {
     };
   }
 
-  handleClick(i) {
-    let history = this.state.history.slice(0, this.state.stepNumber + 1);
-    const current = history[history.length - 1];
-    const squares = [...current.squares];
-
-    // If there's a winner, do nothing
-    if (calculateWinner(squares) || squares[i]) return;
-
-    squares[i] = this.state.xIsNext ? 'X' : 'O'; // fill square
-
-    // column and row of the move
-    let move = [Math.floor((i % 3) + 1), Math.floor(i / 3 + 1)];
-
-    this.setState({
-      history: [...history, { squares, move }],
-      stepNumber: history.length,
-      xIsNext: !this.state.xIsNext
-    });
-  }
-
-  jumpTo(step) {
-    this.setState({
-      stepNumber: step,
-      xIsNext: step % 2 === 0 // X is next on all even moves
-    });
-  }
-
-  toggleAscending() {
-    this.setState({ ascending: !this.state.ascending });
-  }
-
   render() {
     const history = this.context.history;
     const current = history[this.context.stepNumber];
-    const winner = calculateWinner(current.squares);
+    const winner = this.context.winner();
 
     const moves = history.map((step, move) => {
       const desc = move ? `Go to move # ${move}` : `Go to game start`;
@@ -87,12 +55,7 @@ class Game extends React.Component {
         </h3>
         <div className="game">
           <div className="game-board">
-            <Board
-              squares={current.squares}
-              onClick={i => this.context.handleClick(i)}
-              status={status}
-              winningSquares={winner && winner.winningSquares}
-            />
+            <Board />
           </div>
           <div className="game-info">
             <div>{status}</div>

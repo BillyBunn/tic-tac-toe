@@ -1,15 +1,17 @@
 import React from 'react';
 import Square from './Square';
+import { Context } from '../Context';
 
 class Board extends React.Component {
+  static contextType = Context;
   renderSquare(i) {
     const winner =
-      this.props.winningSquares && this.props.winningSquares.includes(i);
+      this.context.winner() && this.context.winner().winningSquares.includes(i);
     return (
       <Square
         key={i}
-        value={this.props.squares[i]}
-        onClick={() => this.props.onClick(i)}
+        value={this.context.history[this.context.stepNumber].squares[i]}
+        onClick={() => this.context.handleClick(i)}
         winningSquare={winner}
       />
     );

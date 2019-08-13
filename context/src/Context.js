@@ -19,9 +19,13 @@ class Provider extends React.Component {
       xIsNext: true,
       jumpTo: this.jumpTo,
       handleClick: this.handleClick,
-      toggleAscending: this.toggleAscending
+      toggleAscending: this.toggleAscending,
+      winner: this.calcWinner
     };
   }
+
+  calcWinner = () =>
+    calculateWinner(this.state.history[this.state.stepNumber].squares);
 
   handleClick = i => {
     let history = this.state.history.slice(0, this.state.stepNumber + 1);
